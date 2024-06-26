@@ -8,20 +8,19 @@ const port = 33333;
 
 // Middleware to log agent information
 app.use((req, res, next) => {
-  if (req.method === "GET" && req.path.startsWith("/download")) {
-    const userAgent = req.headers["user-agent"];
-    const logMessage = `Time: ${new Date().toISOString()}, User Agent: ${userAgent}, Requested URL: ${
-      req.originalUrl
-    }\n`;
-
-    // Append the log to a file
-    fs.appendFile("downloads.log", logMessage, (err) => {
-      if (err) {
-        console.error("Failed to log download request:", err);
-      }
-    });
-  }
-  next();
+    if (req.method === 'GET' && req.path.startsWith('/download')) {
+        const userAgent = req.headers['user-agent'];
+        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const logMessage = `Time: ${new Date().toISOString()}, IP Address: ${ipAddress}, User Agent: ${userAgent}, Requested URL: ${req.originalUrl}\n`;
+        
+        // Append the log to a file
+        fs.appendFile('downloads.log', logMessage, (err) => {
+            if (err) {
+                console.error('Failed to log download request:', err);
+            }
+        });
+    }
+    next();
 });
 
 app.get("/download/*", (req, res) => {
