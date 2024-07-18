@@ -14,7 +14,11 @@ module.exports = {
           NODE_ENV: 'production',
           PORT: 33333,
         },
-        watch: true, // Optional: to enable automatic restart if files change
+        // watch: true, // Optional: to enable automatic restart if files change,
+        ignore_watch: ['node_modules', 'downloads.log'], // Ignore changes in these directories
+        watch_options: {
+            followSymlinks: false
+        }
       },
     ],
   };

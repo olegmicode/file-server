@@ -24,7 +24,7 @@ app.use(async (req, res, next) => {
     const logMessage = `Time: ${new Date().toISOString()}, IP Address: ${ipAddress}, User Agent: ${userAgent}, Requested URL: ${req.originalUrl}\n`;
 
     // Append the log to a file
-    fs.appendFile('downloads.log', logMessage, (err) => {
+    fs.appendFile(path.join(__dirname, 'downloads.log'), logMessage, (err) => {
       if (err) {
         console.error('Failed to log download request:', err);
       }
